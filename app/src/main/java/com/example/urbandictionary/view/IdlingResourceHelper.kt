@@ -1,10 +1,10 @@
 package com.example.urbandictionary.view
 
-object Smoothie {
+object IdlingResourceHelper {
     private const val RESOURCE = "SMOOTHIE"
 
     @JvmField
-    val countingIdlingResource = SmoothieThermometer(RESOURCE)
+    val countingIdlingResource = IdlingResourceCounter(RESOURCE)
 
     fun startProcess() {
         countingIdlingResource.increment()

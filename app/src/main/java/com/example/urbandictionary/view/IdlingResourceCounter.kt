@@ -3,8 +3,7 @@ package com.example.urbandictionary.view
 import androidx.test.espresso.IdlingResource
 import java.util.concurrent.atomic.AtomicInteger
 
-
-class SmoothieThermometer(private val resourceName: String): IdlingResource {
+class IdlingResourceCounter(private val resourceName: String): IdlingResource {
 
     private val counter = AtomicInteger(0)
 
