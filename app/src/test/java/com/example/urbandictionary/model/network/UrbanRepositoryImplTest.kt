@@ -1,8 +1,8 @@
 package com.example.urbandictionary.model.network
 
+import com.example.urbandictionary.model.network.remote.UrbanRestService
 import com.example.urbandictionary.model.response.UrbanResponse
 import com.example.urbandictionary.model.response.Word
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.Rule
@@ -20,7 +20,7 @@ class UrbanRepositoryImplTest {
     var rule = MockitoJUnit.rule()
 
     @Mock
-    lateinit var webService: WebService
+    lateinit var urbanRestService: UrbanRestService
 
     @Test
     fun testWordList() {
@@ -28,12 +28,12 @@ class UrbanRepositoryImplTest {
             Word("definition2", 2, 2),
             Word("definition3", 3, 1))
         val response = UrbanResponse(wordList)
-        Mockito.`when`(webService.getDefinitions("country")).thenReturn(
+        Mockito.`when`(urbanRestService.getDefinitions("country")).thenReturn(
             Single.just(response)
         )
 
         val testObserver: TestObserver<UrbanResponse> =
-            webService.getDefinitions("country").test()
+            urbanRestService.getDefinitions("country").test()
 
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()

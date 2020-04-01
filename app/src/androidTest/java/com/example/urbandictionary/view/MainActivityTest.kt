@@ -22,17 +22,6 @@ class MainActivityTest {
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
 
-    @Before
-    fun setUp() {
-        IdlingRegistry.getInstance().register(IdlingResourceHelper.countingIdlingResource)
-    }
-
-    @After
-    fun tearDown() {
-        IdlingRegistry.getInstance().unregister(IdlingResourceHelper.countingIdlingResource)
-        print("Finished testing")
-    }
-
     @Test
     fun onLaunchCheckAmountInputIsDisplayed() {
         // launch activity
@@ -42,15 +31,15 @@ class MainActivityTest {
         onView(withId(R.id.word_search)).check(matches(isDisplayed()))
 
         // enter text in searchview
-        onView(withId(R.id.word_search)).perform(typeSearchViewText("Pokemon"))
+        onView(withId(R.id.word_search)).perform(typeSearchViewText("words"))
 
         // check there are 10 items
         onView(withId(R.id.rvNews))
-            .check(hasItemCount(10))
+            .check(hasItemCount(3))
 
         // Check item at position 0 has "The greatest [video game]/[card game]/[tv show] of all time"
         onView(withRecyclerView(R.id.rvNews)?.atPosition(0))
-            .check(matches(hasDescendant(withText("The greatest [video game]/[card game]/[tv show] of all time"))));
+            .check(matches(hasDescendant(withText("word1"))));
     }
 
 }

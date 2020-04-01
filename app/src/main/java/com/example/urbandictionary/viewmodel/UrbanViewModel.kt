@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.urbandictionary.model.network.UrbanRepository
 import com.example.urbandictionary.model.response.Word
-import com.example.urbandictionary.view.IdlingResourceHelper
 import com.jakewharton.rxbinding.support.v7.widget.RxSearchView
 import io.reactivex.disposables.CompositeDisposable
 import rx.Notification
@@ -22,12 +21,10 @@ class UrbanViewModel constructor(private val urbanRepository: UrbanRepository) :
 
     private fun getDefinitions(term: String) {
         stateMutableLiveData.value = AppState.LOADING
-        IdlingResourceHelper.startProcess()
         disposable.add(
             urbanRepository.getDefinitionList(term)
                 .subscribe({
                     loaded = true
-                    IdlingResourceHelper.endProcess()
                     if (it.list.isEmpty()) {
                         stateMutableLiveData.value = AppState.ERROR("No Definitions Retrieved")
                     } else {
@@ -35,7 +32,6 @@ class UrbanViewModel constructor(private val urbanRepository: UrbanRepository) :
                     }
                 }, {
                     loaded = true
-                    IdlingResourceHelper.endProcess()
                     //errors
                     val errorString = when (it) {
                         is UnknownHostException -> "No Internet Connection"

@@ -9,8 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.urbandictionary.R
-import com.example.urbandictionary.model.network.UrbanRepositoryImpl
-import com.example.urbandictionary.model.network.WebService
+import com.example.urbandictionary.injection.Injection
 import com.example.urbandictionary.model.response.Word
 import com.example.urbandictionary.viewmodel.UrbanViewModel
 import com.example.urbandictionary.viewmodel.UrbanViewModelFactory
@@ -19,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel: UrbanViewModel
     var wordsAdapter: WordsAdapter = WordsAdapter()
+    val injection = Injection()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(
             this,
-            UrbanViewModelFactory(UrbanRepositoryImpl(WebService.instance))
+            UrbanViewModelFactory(injection.provideUserRepo())
         ).get(UrbanViewModel::class.java)
 
         viewModel.stateLiveData.observe(this, Observer { appState ->

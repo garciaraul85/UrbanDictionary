@@ -1,4 +1,4 @@
-package com.example.urbandictionary.model.network
+package com.example.urbandictionary.model.network.remote
 
 import com.example.urbandictionary.model.response.UrbanResponse
 import io.reactivex.Single
@@ -14,9 +14,9 @@ import retrofit2.http.Query
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-interface WebService {
+interface UrbanRestService {
     companion object {
-        val instance: WebService by lazy {
+        val instance: UrbanRestService by lazy {
             //Logging
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -46,7 +46,7 @@ interface WebService {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            retrofit.create(WebService::class.java)
+            retrofit.create(UrbanRestService::class.java)
         }
     }
 
